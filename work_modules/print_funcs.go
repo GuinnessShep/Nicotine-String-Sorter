@@ -126,7 +126,7 @@ func CreatePBar() *progressbar.ProgressBar {
 		progressbar.OptionSetItsString("Str"),
 		progressbar.OptionSetRenderBlankState(true),
 		progressbar.OptionEnableColorCodes(true),
-		progressbar.OptionSetDescription("[*] "),
+		progressbar.OptionSetDescription("[*]"),
 		progressbar.OptionSetTheme(progressbar.Theme{
 			Saucer:        "[blue]█[reset]",
 			SaucerHead:    "[green]░[reset]",
