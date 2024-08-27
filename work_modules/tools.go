@@ -20,7 +20,7 @@ func GetAviableStringsCount() int64 {
 	cacheMutex.Lock()
 	defer cacheMutex.Unlock()
 
-	if time.Since(lastUpdate) > time.Second*15 { // Если прошло более 1\4 минуты с момента последнего обновления, обновляем кеш
+	if time.Since(lastUpdate) > time.Second*15 { // If more than 1/4 minute has passed since the last update, update the cache
 		cachedStrCount = getAviableStringsCountCached()
 		lastUpdate = time.Now()
 	}
@@ -30,11 +30,11 @@ func GetAviableStringsCount() int64 {
 func getAviableStringsCountCached() int64 {
 	freeMemory := memory.FreeMemory()
 	if freeMemory != 0 {
-		return int64(math.Round(float64(freeMemory / (80 * 4 * 0.90)))) // 80 - Предпологаемый размер строки, 4 - размер символа в байтах, 0.90 - оставляем часть памяти для других элементов сортера
+		return int64(math.Round(float64(freeMemory / (80 * 4 * 0.90)))) // 80 - Estimated string size, 4 - byte size of character, 0.90 - leaving part of memory for other sorter elements
 	} else {
 		PrintWarn()
-		fmt.Print(" Не удалось получить количество доступной памяти : Чтение по чанкам в 2Гб")
-		return 6700000 // Возвращаем ~2 гига, если не получили доступный размер
+		fmt.Print(" Unable to get available memory size: Reading in 2GB chunks")
+		return 6700000 // Return ~2GB if the available size is not obtained
 	}
 }
 
@@ -51,7 +51,7 @@ func GetFileProcessInfo(path string) *encoding.Decoder {
 	select {
 	case <-time.After(5 * time.Second):
 		PrintErr()
-		fmt.Print(" Таймаут определения кодировки : Используется ")
+		fmt.Print(" Timeout detecting encoding: Using ")
 		ColorBlue.Print(" UTF-8\n")
 		return unicode.UTF8.NewDecoder()
 	case result := <-result:
@@ -69,7 +69,7 @@ func GetFileDecoder(path string) *encoding.Decoder {
 	file, err := os.OpenFile(path, os.O_RDONLY, os.ModePerm)
 	if err != nil {
 		PrintErr()
-		fmt.Printf(" Ошибка определения кодировки : %s : Используется : ", err)
+		fmt.Printf(" Error detecting encoding: %s : Using: ", err)
 		ColorBlue.Print(" UTF-8\n")
 		return unicode.UTF8.NewDecoder()
 	}
@@ -115,7 +115,7 @@ func GetCurrentFileSize(path string) error {
 	currentFileSize = info.Size()
 
 	if cfl := int64(math.Round(float64(currentFileSize) / 80)); cfl == 0 {
-		currentFileLines = 10 // да да блять, это же ебучий костыль
+		currentFileLines = 10 // yes, yes, fucking crutch
 	} else {
 		currentFileLines = cfl
 	}
