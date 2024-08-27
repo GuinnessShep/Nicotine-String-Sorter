@@ -8,10 +8,9 @@ import (
 
 func GetFilesSize(flist []string) {
 	for _, path := range flist {
-
 		if info, err := os.Stat(path); err != nil {
 			PrintErr()
-			fmt.Printf("%s : Ошибка получения размера файла : %s\n", path, err)
+			fmt.Printf("%s : Error getting file size : %s\n", path, err)
 			continue
 		} else {
 			filesSize += info.Size()
@@ -22,11 +21,11 @@ func GetFilesSize(flist []string) {
 func ClearTerm() {
 	switch userOs {
 	case "windows":
-		cmd := exec.Command("cmd", "/c", "cls") //Windows example, its tested
+		cmd := exec.Command("cmd", "/c", "cls") // Windows example, its tested
 		cmd.Stdout = os.Stdout
 		_ = cmd.Run()
 	case "linux":
-		cmd := exec.Command("clear") //Linux example, its tested
+		cmd := exec.Command("clear") // Linux example, its tested
 		cmd.Stdout = os.Stdout
 		_ = cmd.Run()
 	default:
@@ -35,7 +34,6 @@ func ClearTerm() {
 }
 
 func Unique(slice []string) []string {
-
 	inResult := make(map[string]bool)
 	var result []string
 	for _, str := range slice {
@@ -52,9 +50,9 @@ func SetTermTitle(appVersion string) {
 
 	switch userOs {
 	case "windows":
-		cmd = exec.Command("powershell", "-Command", "& { $Host.UI.RawUI.WindowTitle = '"+"Nicotine String Sorter | НикотиновыйКодер | "+appVersion+"' }")
+		cmd = exec.Command("powershell", "-Command", "& { $Host.UI.RawUI.WindowTitle = '"+"Nicotine String Sorter | NicotineCoder | "+appVersion+"' }")
 	case "linux":
-		cmd = exec.Command("bash", "-c", "echo -ne '\\033]0;"+"Nicotine String Sorter | НикотиновыйКодер | "+appVersion+"\\007'")
+		cmd = exec.Command("bash", "-c", "echo -ne '\\033]0;"+"Nicotine String Sorter | NicotineCoder | "+appVersion+"\\007'")
 	}
 
 	if err := cmd.Run(); err != nil {
