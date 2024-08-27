@@ -163,7 +163,7 @@ LoopData:
 				uSelect = "continue"
 				break LoopMode
 			case "2":
-				delimetr = GetDelimetrInput()
+				delimiter = GetDelimiterInput()  // Corrected function call
 				continue LoopData
 			case "3":
 				uSelect = "restart"
