@@ -16,7 +16,7 @@ import (
 func RunSorter() {
 
 	PrintInfo()
-	fmt.Print("Запуск сортера...")
+	fmt.Print("Starting sorter...")
 
 	var (
 		compiledRegEx *regexp.Regexp
@@ -34,7 +34,7 @@ func RunSorter() {
 
 		if err != nil {
 			PrintErr()
-			fmt.Printf("%s : Ошибка компиляции запроса : %s\n", request, err)
+			fmt.Printf("%s: Request compilation error: %s\n", request, err)
 			RemoveFromSliceByValue(searchRequests, request)
 			continue
 		}
@@ -59,7 +59,7 @@ func RunSorter() {
 
 	fmt.Print("\r")
 	PrintSuccess()
-	fmt.Print("Сортер запущен   \n\n")
+	fmt.Print("Sorter started\n\n")
 }
 
 func Sorter(path string) {
@@ -94,7 +94,7 @@ func Sorter(path string) {
 	if GetAviableStringsCount() > currentFileLines {
 		sorterPool.Tune(int(math.Round(float64(currentFileLines) / 3)))
 	} else {
-		sorterPool.Tune(int(math.Round(float64(GetAviableStringsCount()) / 3)))
+		 sorterPool.Tune(int(math.Round(float64(GetAviableStringsCount()) / 3)))
 	}
 
 	isFileInProcessing = true
@@ -111,9 +111,9 @@ func Sorter(path string) {
 
 	workWG.Wait()
 
-	checkedLines += int64(TMPlinesLen)     // Прибавляем строки
-	_ = pBar.Finish()                      // Завершаем бар
-	_ = pBar.Exit()                        // Закрываем бар
+	checkedLines += int64(TMPlinesLen)     // Add lines
+	_ = pBar.Finish()                      // Finish the progress bar
+	_ = pBar.Exit()                        // Close the progress bar
 	close(sorterWriteChannelMap[currPath]) // 
 
 	isFileInProcessing = false
@@ -121,13 +121,13 @@ func Sorter(path string) {
 		time.Sleep(time.Millisecond * 100)
 	}
 
-	file.Close() // Закрываем файл
+	file.Close() // Close file
 
-	sorterWriteChannelMap[currPath] = nil // Чистим канал
+	sorterWriteChannelMap[currPath] = nil // Clear the channel
 	PrintSortInfo()
-	PrintFileDone(currPathCut)       // Пишем файл отсортрован
-	checkedFiles++                   // Прибавляем пройденные файлы
-	matchLines += currFileMatchLines // Суммируем найденые строки
+	PrintFileDone(currPathCut)       // File sorted
+	checkedFiles++                   // Increment processed files count
+	matchLines += currFileMatchLines // Sum matched lines
 	sorterDubles += currFileDubles   //
 }
 
@@ -162,13 +162,13 @@ func SorterWriteResult() {
 	for _, request := range searchRequests {
 		if err := sorterResultWriterMap[request].Flush(); err != nil {
 			PrintErr()
-			fmt.Print("Ошибка выгрузки результата из буффера в файл : ", err, "\n")
+			fmt.Print("Error writing buffer to file: ", err, "\n")
 		}
 		currFileMatchLines += sorterRequestStatMapCurrFile[request]
 		sorterRequestStatMap[request] += sorterRequestStatMapCurrFile[request]
 	}
 
-	isResultWrited = true // сообщаем о том, что файл записан
+	isResultWrited = true // Notify that the file has been written
 }
 
 func SorterEnd() {
