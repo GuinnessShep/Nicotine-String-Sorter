@@ -1,31 +1,31 @@
 # Nicotine-String-Sorter
-Сортер ваших Url:Log:Pass строк на Go
+Sorter for your Url:Log:Pass strings in Go
 
 
 ![image](https://raw.githubusercontent.com/Underneach/Nicotine-String-Sorter/String-Sorter-regexp/image_1.png)
 ![image](https://raw.githubusercontent.com/Underneach/Nicotine-String-Sorter/String-Sorter-regexp/image_2.png)
 
 
-## Что умеет сортер
+## What the sorter can do
 
-    Получение строк из файла или файлов в папке
-    Сохранение в виде Log:Pass или Url:Log:Pass
-    Сортировка по запросу в виде сайта (google.com) или ключевого слова в ссылке (google)
-    Многопоточная сортировка и одновременная запись в файлы с пропуском повторов строк - чтение базы любого размера
+    Getting strings from a file or files in a folder
+    Saving as Log:Pass or Url:Log:Pass
+    Sorting by site request (google.com) or keyword in the link (google)
+    Multithreaded sorting and simultaneous writing to files while skipping duplicate strings - reading a database of any size
 
-## Что умеет клинер
+## What the cleaner can do
 
-    Чистка базы любого размера - строки обрабатываются сразу при чтении, без загрузки списком в оперативную память
-    Чистка нескольких баз по отдельности или всех баз в один файл
-    Удаление невалид строк (A-z / 0-9 / Специмволы | 10-256 символов | UNKNOWN
-    Удаление дублей реализовано через xxh3 хеш
+    Cleaning a database of any size - strings are processed immediately upon reading, without loading the list into RAM
+    Cleaning multiple databases individually or all databases into one file
+    Removing invalid strings (A-z / 0-9 / Special characters | 10-256 characters | UNKNOWN)
+    Duplicate removal implemented via xxh3 hash
 
 
 
-## Стек
-+  Многопоток - github.com/panjf2000/ants
-+  Цветной вывод - github.com/fatih/color
-+  Спеки проца - github.com/klauspost/cpuid
-+  Получение кол-ва достпной оперы - github.com/pbnjay/memory
-+  Определение кодировки файла - github.com/saintfish/chardet
-+  Прогресс бар - github.com/schollz/progressbar
+## Stack
++  Multithreading - github.com/panjf2000/ants
++  Colored output - github.com/fatih/color
++  Processor specs - github.com/klauspost/cpuid
++  Getting available memory - github.com/pbnjay/memory
++  File encoding detection - github.com/saintfish/chardet
++  Progress bar - github.com/schollz/progressbar
