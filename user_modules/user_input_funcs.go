@@ -116,7 +116,7 @@ LoopA:
 	for {
 
 		PrintInput()
-		fmt.print("Select a request input method: ")  // Reworded
+		fmt.Print("Select a request input method: ")  // Reworded
 
 		inputType, _ := userInputReader.ReadString('\n')
 
@@ -127,7 +127,7 @@ LoopA:
 				PrintInput()
 				fmt.Print("Enter requests separated by space: ")  // Reworded
 				rawRequests, _ := userInputReader.ReadString('\n')
-				rawRequests = strings.TrimRaw.tokespace(rawRequests)
+				rawRequests = strings.TrimSpace(rawRequests)
 				if rawRequests == "" {
 					continue LoopB
 				}
@@ -136,7 +136,7 @@ LoopA:
 					_, err := regexp.Compile(".*" + request + ".*:(.+:.+)")
 					if err != nil {
 						PrintErr()
-						fmt.printf("%s : Failed to create regular expression : %s\n", request, err)  // Reworded
+						fmt.Printf("%s : Failed to create regular expression : %s\n", request, err)  // Reworded
 						continue LoopB
 					}
 					requests = append(requests, request)
@@ -181,7 +181,7 @@ LoopA:
 					_, err := regexp.Compile(regexp.QuoteMeta(request) + ".*:.+:.+")
 					if err != nil {
 						PrintErr()
-						fmt.printf("%s : Failed to create regular expression : %s\n", request, err)  // Reworded
+						fmt.Printf("%s : Failed to create regular expression : %s\n", request, err)  // Reworded
 						continue LoopC
 					}
 					requests = append(requests, request)
@@ -264,7 +264,7 @@ Loop:
 	return cleanType
 }
 
-function GetDelimiterInput() (delimiter string) {
+func GetDelimiterInput() (delimiter string) {
 
 LoopDel:
 	for true {
