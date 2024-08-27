@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-// PrintErr PrintSuccess PrintWarn PrintInfo Значки
+// PrintErr PrintSuccess PrintWarn PrintInfo Icons
 
 func PrintErr() {
 	fmt.Print("[")
@@ -34,7 +34,7 @@ func PrintInfo() {
 	fmt.Print("] ")
 }
 
-// PrintLinesChunk PrintCheckedFiles PrintFileInfo PrintFileDone Инфа о работе сортера
+// PrintLinesChunk PrintCheckedFiles PrintFileInfo PrintFileDone Sorter Info
 
 func PrintCheckedFiles() {
 	fmt.Print("[")
@@ -47,25 +47,25 @@ func PrintCheckedFiles() {
 func PrintFileInfo(path string) {
 	PrintInfo()
 	PrintCheckedFiles()
-	fmt.Print("Обработка файла ")
+	fmt.Print("Processing file ")
 	ColorBlue.Print(path)
 	fmt.Print(" : ")
 	if currentFileSize < 1610612736 {
 		ColorBlue.Print(currentFileSize / 1048576)
-		fmt.Print(" Мб : ")
+		fmt.Print(" MB : ")
 	} else {
 		ColorBlue.Print(currentFileSize / 1073741824)
-		fmt.Print(" Гб : ")
+		fmt.Print(" GB : ")
 	}
 	ColorBlue.Print("~", currentFileLines)
-	fmt.Print(" Строк\n")
+	fmt.Print(" Lines\n")
 }
 
 func PrintFileDone(path string) {
 	PrintSuccess()
 	PrintCheckedFiles()
 	ColorBlue.Print(path)
-	fmt.Print(" : Файл обработан\n\n")
+	fmt.Print(" : File processed\n\n")
 }
 
 func PrintSortInfo() {
@@ -77,14 +77,14 @@ func PrintSortInfo() {
 			ColorBlue.Print(request)
 			fmt.Print(" : ")
 			ColorBlue.Print(sorterRequestStatMapCurrFile[request])
-			fmt.Print(" строк\n")
+			fmt.Print(" lines\n")
 
 		}
 	case reqLen > 10:
 		PrintSuccess()
-		fmt.Print("Найдено ")
+		fmt.Print("Found ")
 		ColorBlue.Print(currFileMatchLines)
-		fmt.Print(" подходящих строк по всем запросам\n")
+		fmt.Print(" matching lines for all requests\n")
 	}
 }
 
@@ -92,24 +92,24 @@ func PrintClearInfo() {
 	fmt.Print("\n")
 	PrintInfo()
 	ColorBlue.Print(TMPlinesLen)
-	fmt.Print(" строк : ")
+	fmt.Print(" lines : ")
 	ColorBlue.Print(currFileWritedString)
-	fmt.Print(" Уникальных : ")
+	fmt.Print(" Unique : ")
 	ColorBlue.Print(currFileDubles)
-	fmt.Print(" Повторов : ")
+	fmt.Print(" Duplicates : ")
 	ColorBlue.Print(currFileInvalidLen)
-	fmt.Print(" Невалидных\n")
+	fmt.Print(" Invalid\n")
 }
 
 func PrintChunk() {
 	PrintInfo()
-	fmt.Print("Чтение по ")
+	fmt.Print("Reading ")
 	if GetAviableStringsCount() > currentFileLines {
 		ColorBlue.Print(currentFileLines)
 	} else {
 		ColorBlue.Print(GetAviableStringsCount())
 	}
-	fmt.Print(" строк : ")
+	fmt.Print(" lines : ")
 }
 
 func PrintEncoding(result *chardet.Result) {
@@ -148,20 +148,20 @@ func PBarUpdater() {
 	}
 }
 
-// Ошибки
+// Errors
 
 func PrintFileReadErr(path string, err error) {
 	PrintErr()
-	fmt.Printf("%s : Ошибка чтения файла : %s\n\n", path, err)
+	fmt.Printf("%s : File read error : %s\n\n", path, err)
 }
 
 func PrintZeroRequestsErr() {
 	PrintErr()
-	fmt.Print("Нету запросов для сорта : Перезапустите сортер\n")
+	fmt.Print("No requests for sort : Restart the sorter\n")
 	PrintErr()
-	fmt.Print("Нажмите ")
+	fmt.Print("Press ")
 	ColorBlue.Print("Enter")
-	fmt.Print(" для выхода")
+	fmt.Print(" to exit")
 	fmt.Scanln()
 	os.Exit(1)
 }
@@ -169,21 +169,21 @@ func PrintZeroRequestsErr() {
 func PrintResultWriteErr(request string, err error) {
 	PrintErr()
 	ColorBlue.Print(request)
-	fmt.Print(" : Ошибка записи найденных строк : ")
+	fmt.Print(" : Error writing found lines : ")
 	ColorRed.Print(err, "\n")
 	PrintInfo()
-	fmt.Print("Запустите сортер с правами Администратора, если ошибка связана с доступом\n")
+	fmt.Print("Run the sorter with Administrator rights if the error is related to access\n")
 }
 
 func PrintEncodingErr(err error) {
 	PrintErr()
-	fmt.Printf(" Ошибка определения кодировки : %s : Используется ", err)
+	fmt.Printf(" Encoding detection error : %s : Using ", err)
 	ColorBlue.Print("UTF-8\n")
 }
 
 func PrintEndodingLinesEnd() {
 	PrintWarn()
-	fmt.Print(" Недостаточно строк для определения кодировки : Используется ")
+	fmt.Print(" Not enough lines to determine encoding : Using ")
 	ColorBlue.Print("UTF-8\n")
 }
 
@@ -195,60 +195,60 @@ func PrintSorterResult() {
 		ColorBlue.Print(request)
 		fmt.Print(" : ")
 		ColorBlue.Print(sorterRequestStatMap[request])
-		fmt.Print(" строк : ")
+		fmt.Print(" lines : ")
 		if fi, err := os.Stat(requestStructMap[request].resultFile); err == nil {
 			fsize := fi.Size()
 			switch {
 			case fsize < 1048576:
 				ColorBlue.Print(fi.Size() / 1024)
-				fmt.Print(" Кб : ")
+				fmt.Print(" KB : ")
 			case fsize >= 1048576:
 				ColorBlue.Print(fi.Size() / 1048576)
-				fmt.Print(" Мб : ")
+				fmt.Print(" MB : ")
 			}
 
 		} else {
 			ColorBlue.Print("?")
-			fmt.Print(" Мб : ")
+			fmt.Print(" MB : ")
 		}
 		ColorBlue.Print(requestStructMap[request].resultFile, "\n")
 	}
 	fmt.Print("\n\n")
 
 	PrintSuccess()
-	fmt.Print("Файлов отсортировано : ")
+	fmt.Print("Files sorted : ")
 	ColorBlue.Print(checkedFiles)
-	fmt.Print(" из ")
+	fmt.Print(" out of ")
 	ColorBlue.Print(len(filePathList), "\n")
 
 	PrintSuccess()
-	fmt.Print("Строк отсортировано : ")
+	fmt.Print("Lines sorted : ")
 	ColorBlue.Print(checkedLines, "\n")
 
 	PrintSuccess()
-	fmt.Print("Подходящих строк : ")
+	fmt.Print("Matching lines : ")
 	ColorGreen.Print(matchLines, "\n")
 
 	PrintWarn()
-	fmt.Print("Повторяющихся строк : ")
+	fmt.Print("Duplicate lines : ")
 	ColorGreen.Print(sorterDubles, "\n\n")
 }
 
 func PrintCleanerResult() {
 	fmt.Print("\n\n")
 	PrintSuccess()
-	fmt.Print("Файлов очищено : ")
+	fmt.Print("Files cleaned : ")
 	ColorBlue.Print(checkedFiles)
-	fmt.Print(" из ")
+	fmt.Print(" out of ")
 	ColorBlue.Print(len(filePathList), "\n")
 	PrintSuccess()
-	fmt.Print("Повторов удалено : ")
+	fmt.Print("Duplicates removed : ")
 	ColorBlue.Print(cleanerDublesLen, "\n")
 	PrintSuccess()
-	fmt.Print("Невалида удалено : ")
+	fmt.Print("Invalid removed : ")
 	ColorBlue.Print(cleanerInvalidLen, "\n")
 	PrintSuccess()
-	fmt.Print("Записано уникальных строк : ")
+	fmt.Print("Unique lines written : ")
 	ColorBlue.Print(cleanerWritedString, "\n\n")
 
 	switch cleanType {
@@ -260,14 +260,14 @@ func PrintCleanerResult() {
 				switch {
 				case fsize < 1048576:
 					ColorBlue.Print(fi.Size() / 1024)
-					fmt.Print(" Кб : ")
+					fmt.Print(" KB : ")
 				case fsize >= 1048576:
 					ColorBlue.Print(fi.Size() / 1048576)
-					fmt.Print(" Мб : ")
+					fmt.Print(" MB : ")
 				}
 			} else {
 				ColorBlue.Print("?")
-				fmt.Print(" Мб : ")
+				fmt.Print(" MB : ")
 			}
 			fmt.Print(cleanerOutputFilesMap[path] + "\n")
 		}
@@ -279,16 +279,15 @@ func PrintCleanerResult() {
 			switch {
 			case fsize < 1048576:
 				ColorBlue.Print(fi.Size() / 1024)
-				fmt.Print(" Кб : ")
+				fmt.Print(" KB : ")
 			case fsize >= 1048576:
 				ColorBlue.Print(fi.Size() / 1048576)
-				fmt.Print(" Мб : ")
+				fmt.Print(" MB : ")
 			}
 		} else {
 			ColorBlue.Print("?")
-			fmt.Print(" Мб : ")
+			fmt.Print(" MB : ")
 		}
 		fmt.Print(cleanerOutputFilesMap[filePathList[0]] + "\n")
 	}
-
 }
