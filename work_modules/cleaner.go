@@ -15,7 +15,7 @@ import (
 func RunCleaner() {
 
 	PrintInfo()
-	fmt.Print("Запуск Клинера...")
+	fmt.Print("Starting Cleaner...")
 
 	for _, path := range filePathList {
 		switch cleanType {
@@ -29,7 +29,7 @@ func RunCleaner() {
 	var err error
 	if partsPattern, err = regexp.Compile(`.+` + delimetr + `.+` + delimetr + `.+`); err != nil {
 		PrintErr()
-		fmt.Print("Ошибка компиляции регулярки частей строки :", err, ": Чистка без проверки на части\n")
+		fmt.Print("Error compiling part pattern regex: ", err, ": Cleaning without part check\n")
 		cleanerPartsPatternIsErr = true
 	}
 
@@ -37,7 +37,7 @@ func RunCleaner() {
 
 	fmt.Print("\r")
 	PrintSuccess()
-	fmt.Print("Клинер запущен   \n\n")
+	fmt.Print("Cleaner started\n\n")
 
 }
 
@@ -115,23 +115,23 @@ func Cleaner(path string) {
 		}
 	}
 
-	isFileInProcessing = false                  // Останавливаем пбар
-	close(cleanerResultChannelMap[currPath])    //
-	checkedLines += int64(TMPlinesLen)          // Прибавляем строки
-	cleanerDublesLen += currFileDubles          //
+	isFileInProcessing = false              // Stop progress bar
+	close(cleanerResultChannelMap[currPath]) //
+	checkedLines += int64(TMPlinesLen)      // Add lines
+	cleanerDublesLen += currFileDubles      //
 	cleanerWritedString += currFileWritedString //
-	cleanerInvalidLen += currFileInvalidLen     //
-	_ = pBar.Finish()                           // Завершаем бар
-	_ = pBar.Exit()                             // Закрываем бар
-	cleanerReadFile.Close()                     // Закрываем файл
-	cleanerWrFile.Close()                       // Закрываем файл
-	cleanerResultChannelMap[currPath] = nil     //
+	cleanerInvalidLen += currFileInvalidLen //
+	_ = pBar.Finish()                       // Finish bar
+	_ = pBar.Exit()                         // Close bar
+	cleanerReadFile.Close()                 // Close file
+	cleanerWrFile.Close()                   // Close file
+	cleanerResultChannelMap[currPath] = nil //
 	if cleanType == "1" {
-		cleanerStringHashMap = nil // Чистим карту если базы сортятся отдельно
+		cleanerStringHashMap = nil // Clear map if databases are sorted separately
 	}
 	PrintClearInfo()           //
-	PrintFileDone(currPathCut) // Пишем файл отсортрован
-	checkedFiles++             // Прибавляем пройденные файлы
+	PrintFileDone(currPathCut) // Output file sorted
+	checkedFiles++             // Increment processed files count
 }
 
 func CleanerWriteLine() {
@@ -143,7 +143,7 @@ func CleanerWriteLine() {
 		} else {
 			if err := cleanerWriteFile.Flush(); err != nil {
 				PrintErr()
-				fmt.Print("Ошибка выгрузки результата из буффера в файл : ", err, "\n")
+				fmt.Print("Error flushing buffer to file: ", err, "\n")
 			}
 			break
 		}
