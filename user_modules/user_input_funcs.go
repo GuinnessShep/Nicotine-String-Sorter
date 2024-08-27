@@ -15,7 +15,7 @@ func GetWorkMode() (work string) {
 LoopWork:
 	for {
 		PrintInput()
-		fmt.Print("Выберите тип работы: ")
+		fmt.Print("Select a work mode: ")  // Reworded
 		wmraw, _ := userInputReader.ReadString('\n')
 		wmraw = strings.TrimSpace(wmraw)
 
@@ -40,7 +40,7 @@ func GetFilesInput() (result []string) {
 Loop:
 	for {
 		PrintInput()
-		fmt.Print("Введите путь к файлу или папке для обработки: ")
+		fmt.Print("Enter the file or folder path for processing: ")  // Reworded
 
 		rawPath, _ := userInputReader.ReadString('\n')
 		rawPath = strings.TrimSpace(rawPath)
@@ -54,9 +54,9 @@ Loop:
 
 			if fileInfo.IsDir() {
 				PrintSuccess()
-				fmt.Printf("Папка '")
+				fmt.Printf("Folder '")  // Reworded
 				ColorBlue.Print(rawPath)
-				fmt.Print("' найдена:\n\n")
+				fmt.Print("' found:\n\n")  // Reworded
 
 				_ = filepath.Walk(rawPath, func(path string, info os.FileInfo, fwerr error) error {
 
@@ -80,20 +80,20 @@ Loop:
 					break Loop
 				} else {
 					PrintErr()
-					fmt.Print("Нет файлов для обработки\n")
+					fmt.Print("No files found for processing\n")  // Reworded
 					continue Loop
 				}
 
 			} else {
 				PrintSuccess()
-				fmt.Print("Файл со строками найден\n\n")
+				fmt.Print("File found\n\n")  // Reworded
 				result = append(result, rawPath)
 				break Loop
 			}
 
 		} else {
 			PrintErr()
-			fmt.Printf("Путь '%s' не существует\n", rawPath)
+			fmt.Printf("Path '%s' does not exist\n", rawPath)  // Reworded
 			continue Loop
 		}
 	}
@@ -106,17 +106,17 @@ Loop:
 func GetRequestsInput() (requests []string) {
 
 	PrintInfo()
-	fmt.Print("Поддерживаемые типы ввода:\n\n")
+	fmt.Print("Supported input methods:\n\n")  // Reworded
 	ColorBlue.Print("       1")
-	fmt.Print(" - Ввод из терминала\n")
+	fmt.Print(" - Enter from terminal\n")  // Reworded
 	ColorBlue.Print("       2")
-	fmt.Print(" - Ввод из файла\n\n")
+	fmt.Print(" - Load from file\n\n")  // Reworded
 
 LoopA:
 	for {
 
 		PrintInput()
-		fmt.Print("Выберите ввод запросов: ")
+		fmt.print("Select a request input method: ")  // Reworded
 
 		inputType, _ := userInputReader.ReadString('\n')
 
@@ -125,9 +125,9 @@ LoopA:
 		LoopB:
 			for true {
 				PrintInput()
-				fmt.Print("Введите запросы через пробел: ")
+				fmt.Print("Enter requests separated by space: ")  // Reworded
 				rawRequests, _ := userInputReader.ReadString('\n')
-				rawRequests = strings.TrimSpace(rawRequests)
+				rawRequests = strings.TrimRaw.tokespace(rawRequests)
 				if rawRequests == "" {
 					continue LoopB
 				}
@@ -136,7 +136,7 @@ LoopA:
 					_, err := regexp.Compile(".*" + request + ".*:(.+:.+)")
 					if err != nil {
 						PrintErr()
-						fmt.Printf("%s : Ошибка создания регулярного выражения : %s\n", request, err)
+						fmt.printf("%s : Failed to create regular expression : %s\n", request, err)  // Reworded
 						continue LoopB
 					}
 					requests = append(requests, request)
@@ -144,7 +144,7 @@ LoopA:
 
 				if len(requests) == 0 {
 					PrintErr()
-					fmt.Print("Нет запросов для поиска\n")
+					fmt.Print("No requests entered for search\n")  // Reworded
 					continue LoopB
 				}
 				fmt.Print("\n")
@@ -154,19 +154,19 @@ LoopA:
 		LoopC:
 			for true {
 				PrintInput()
-				fmt.Print("Введите путь к файлу: ")
+				fmt.Print("Enter the file path: ")  // Reworded
 				rawRequests, _ := userInputReader.ReadString('\n')
 				rawRequests = strings.TrimSpace(rawRequests)
 				_, sterr := os.Stat(rawRequests)
 				if sterr != nil {
 					PrintErr()
-					fmt.Print("Файл не существует\n")
+					fmt.Print("File does not exist\n")  // Reworded
 					continue LoopC
 				}
 				file, operr := os.Open(rawRequests)
 				if operr != nil {
 					PrintErr()
-					fmt.Printf("Ошибка чтения файла с запросами : %s\n", operr)
+					fmt.Printf("Error reading request file : %s\n", operr)  // Reworded
 					fmt.Println(operr)
 					continue LoopC
 				}
@@ -181,7 +181,7 @@ LoopA:
 					_, err := regexp.Compile(regexp.QuoteMeta(request) + ".*:.+:.+")
 					if err != nil {
 						PrintErr()
-						fmt.Printf("%s : Ошибка создания регулярного выражения : %s\n", request, err)
+						fmt.printf("%s : Failed to create regular expression : %s\n", request, err)  // Reworded
 						continue LoopC
 					}
 					requests = append(requests, request)
@@ -189,13 +189,13 @@ LoopA:
 				}
 
 				PrintSuccess()
-				fmt.Print("Файл с запросами найден : ")
+				fmt.Print("Request file found: ")  // Reworded
 				ColorBlue.Print(len(requests))
-				fmt.Print(" запросов\n")
+				fmt.Print(" requests\n")  // Reworded
 
 				if len(requests) == 0 {
 					PrintErr()
-					fmt.Print("Нет запросов для поиска\n")
+					fmt.Print("No requests found for search\n")  // Reworded
 					continue LoopA
 				}
 				fmt.Print("\n")
@@ -211,7 +211,7 @@ LoopA:
 func GetSaveTypeInput() (saveType string) {
 
 	PrintInfo()
-	fmt.Print("Поддерживаемые типы сохранения:\n\n")
+	fmt.Print("Supported save formats:\n\n")  // Reworded
 	ColorBlue.Print("       1")
 	fmt.Print(" - Log:Pass\n")
 	ColorBlue.Print("       2")
@@ -220,7 +220,7 @@ func GetSaveTypeInput() (saveType string) {
 Loop:
 	for true {
 		PrintInput()
-		fmt.Print("Выберите тип сохранения: ")
+		fmt.Print("Select save format: ")  // Reworded
 		rawSaveType, _ := userInputReader.ReadString('\n')
 		rawSaveType = strings.TrimSpace(rawSaveType)
 
@@ -239,16 +239,16 @@ Loop:
 func GetCleanTypeInput() (cleanType string) {
 
 	PrintInfo()
-	fmt.Print("Поддерживаемые режимы клинера:\n\n")
+	fmt.Print("Supported cleaner modes:\n\n")  // Reworded
 	ColorBlue.Print("       1")
-	fmt.Print(" - Чистка и сохранение каждой базы отдельно\n")
+	fmt.Print(" - Clean and save each database separately\n")  // Reworded
 	ColorBlue.Print("       2")
-	fmt.Print(" - Чистка всех баз вместе и сохранение в один файл\n\n")
+	fmt.Print(" - Clean all databases together and save to one file\n\n")  // Reworded
 
 Loop:
 	for true {
 		PrintInput()
-		fmt.Print("Выберите режим чистки: ")
+		fmt.Print("Select cleaner mode: ")  // Reworded
 		rawcleanType, _ := userInputReader.ReadString('\n')
 		rawcleanType = strings.TrimSpace(rawcleanType)
 
@@ -264,12 +264,12 @@ Loop:
 	return cleanType
 }
 
-func GetDelimetrInput() (delimetr string) {
+function GetDelimiterInput() (delimiter string) {
 
 LoopDel:
 	for true {
 		PrintInput()
-		fmt.Print("Введите разделитель строк: ")
+		fmt.Print("Enter the row delimiter: ") // Reworded
 		var rawDelTrim string
 
 		rawDel, _ := userInputReader.ReadString('\n')
@@ -284,22 +284,22 @@ LoopDel:
 		}
 
 		PrintInfo()
-		fmt.Print("Разделитель строк - '")
+		fmt.Print("Row delimiter: '")  // Reworded
 		ColorBlue.Print(rawDelTrim)
 		fmt.Print("'\n\n")
 		ColorBlue.Print("       1")
-		fmt.Print(" - Продолжить\n")
+		fmt.Print(" - Continue\n")  // Reworded
 		ColorBlue.Print("       2")
-		fmt.Print(" - Ввести заново\n\n")
+		fmt.Print(" - Enter again\n\n")  // Reworded
 	LoopAction:
 		for true {
 			PrintInput()
-			fmt.Print("Выберите действие: ")
+			fmt.Print("Select action: ")  // Reworded
 			action, _ := userInputReader.ReadString('\n')
 			action = strings.TrimSpace(action)
 			switch action {
 			case "1":
-				delimetr = rawDelTrim
+				delimiter = rawDelTrim
 				break LoopDel
 			case "2":
 				continue LoopDel
