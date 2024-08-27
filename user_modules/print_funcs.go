@@ -42,8 +42,8 @@ func PrintLogoStart(appVersion string) {
 	ColorGreen.Print("#")
 	fmt.Print(" zelenka.guru/rx580    # НикотиновыйКодер\n\n")
 	PrintInfo()
-	fmt.Print(cpuid.CPU.BrandName, " @ ", cpuid.CPU.PhysicalCores, "/", cpuid.CPU.LogicalCores, " потоков | ")
-	fmt.Print(math.Round(float64(memory.FreeMemory()/1073741824)), "/", math.Ceil(float64(memory.TotalMemory()/1073741824)), " Гб доступной памяти\n\n")
+	fmt.Print(cpuid.CPU.BrandName, " @ ", cpuid.CPU.PhysicalCores, "/", cpuid.CPU.LogicalCores, " threads | ")
+	fmt.Print(math.Round(float64(memory.FreeMemory()/1073741824)), "/", math.Ceil(float64(memory.TotalMemory()/1073741824)), " GB available memory\n\n")
 	isLogoPrinted = true
 }
 
@@ -81,17 +81,17 @@ func PrintInputInfo(appVersion string) {
 	PrintLogoFast(appVersion)
 
 	PrintInfo()
-	fmt.Print("Всего файлов : ")
+	fmt.Print("Total files : ")
 	ColorBlue.Print(len(filePathList))
-	fmt.Print(" : Объем : ")
+	fmt.Print(" : Size : ")
 	ColorBlue.Print(filesSize / 1048576)
-	fmt.Print(" Мб ")
-	fmt.Print(": Строк : ")
+	fmt.Print(" MB ")
+	fmt.Print(": Lines : ")
 	ColorBlue.Print("~", filesSize/80, "\n")
 }
 func PrintSorterData() {
 	PrintInfo()
-	fmt.Printf("Всего запросов : ")
+	fmt.Printf("Total requests : ")
 
 	reqLen := len(searchRequests)
 
@@ -117,7 +117,7 @@ func PrintSorterData() {
 
 	}
 	PrintInfo()
-	fmt.Print("Формат сохранениея : ")
+	fmt.Print("Save format: ")
 	switch saveType {
 	case "1":
 		ColorBlue.Print("Log:Pass\n")
@@ -138,18 +138,18 @@ LoopData:
 		}
 
 		PrintInput()
-		fmt.Print("Выберите действие:\n\n")
+		fmt.Print("Choose an action:\n\n")
 
 		ColorBlue.Print("	1")
-		fmt.Print(" - Запустить\n")
+		fmt.Print(" - Launch\n")
 
 		ColorBlue.Print("	2")
-		fmt.Print(" - Выбрать разделитель строк - '")
+		fmt.Print(" - Select string delimiter - '")
 		ColorBlue.Print(":")
-		fmt.Print("' по умолчанию\n")
+		fmt.Print("' default\n")
 
 		ColorBlue.Print("	3")
-		fmt.Print(" - Ввести данные заново\n\n")
+		fmt.Print(" - Enter data again\n\n")
 
 	LoopMode:
 		for true {
@@ -180,13 +180,13 @@ LoopData:
 func PrintTimeDuration(duration time.Duration) {
 	fmt.Print("\n")
 	PrintSuccess()
-	fmt.Print("Время сортировки : ")
+	fmt.Print("Sort time: ")
 	ColorBlue.Print(duration, "\n\n\n")
 
 	PrintInfo()
-	fmt.Print("Нажмите ")
+	fmt.Print("Press ")
 	ColorBlue.Print("Enter")
-	fmt.Print(" для выхода")
+	fmt.Print(" to exit")
 	fmt.Scanln()
 	os.Exit(0)
 }
@@ -223,33 +223,33 @@ func PrintInfo() {
 
 func PrintWorkModes() {
 	PrintInfo()
-	fmt.Print("Поддерживаемые типы работы:\n\n")
+	fmt.Print("Supported work modes:\n\n")
 	ColorBlue.Print("       1")
-	fmt.Print(" - Сортер строк\n")
-	fmt.Print("       Поиск строк в базе подходящих под запросы и запись в ")
-	ColorBlue.Print("отдельный файл")
-	fmt.Print(" с ")
-	ColorBlue.Print("удалением повторов\n")
-	fmt.Print("       Запрос должен быть в формате '")
+	fmt.Print(" - String sorter\n")
+	fmt.Print("       Search for lines in the database matching requests and write to a ")
+	ColorBlue.Print("separate file")
+	fmt.Print(" without ")
+	ColorBlue.Print("duplicates\n")
+	fmt.Print("       The request should be in the format '")
 	ColorBlue.Print("google.com")
-	fmt.Print("' или '")
+	fmt.Print("' or '")
 	ColorBlue.Print("google")
 	fmt.Print("'\n\n")
 
 	ColorBlue.Print("       2")
-	fmt.Print(" - Клинер базы от невалид строк и дубликатов\n")
-	fmt.Print("       Удаление повторов и строк не подходящих под '")
+	fmt.Print(" - Database cleaner from invalid lines and duplicates\n")
+	fmt.Print("       Delete duplicates and lines not matching '")
 	ColorBlue.Print("A-z")
 	fmt.Print(" | ")
 	ColorBlue.Print("0-9")
 	fmt.Print(" | ")
-	ColorBlue.Print("Спецсимволы")
+	ColorBlue.Print("Special characters")
 	fmt.Print(" | ")
 	ColorBlue.Print("10-256")
-	fmt.Print(" символов | без ")
+	fmt.Print(" characters | without ")
 	ColorBlue.Print("UNKNOWN")
 	fmt.Print("'\n\n")
 
 	ColorBlue.Print("       4")
-	fmt.Print(" - Закрыть программу\n\n")
+	fmt.Print(" - Close the program\n\n")
 }
